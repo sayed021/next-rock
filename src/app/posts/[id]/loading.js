@@ -1,3 +1,5 @@
+import { SingleBlogsLoader } from "@/app/components/loaders/loader";
+
 export default function loader(){
-    return <h2>Loading Post...</h2>
+    return <SingleBlogsLoader />
 }

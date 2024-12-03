@@ -3,6 +3,7 @@ import { getPost, getPostComments, getPosts } from "@/services/PostServices";
 import Image from "next/image";
 import { Suspense } from "react";
 import ButtonLink from "@/app/components/Button";
+import { CommentsLoader } from "@/app/components/loaders/loader";
 
 const imageUrls = [
     "https://picsum.photos/1000/1000?random=1",
@@ -26,8 +27,8 @@ export async function generateMetadata({ params }) {
 
 export default async function page({ params }) {
     const { id } = await params;
-    const postPromise = await getPost(id);
-    const commentsPromise = await getPostComments(id);
+    const postPromise = getPost(id);
+    const commentsPromise = getPostComments(id);
 
     const post = await postPromise; 
 
@@ -36,8 +37,6 @@ export default async function page({ params }) {
     return (
         <>
             <ButtonLink text="< Back to posts" />
- 
-
             <div className="w-100 relative h-[500px] border-2 border-gray-400 bg-gray-100 mt-9 rounded-md overflow-hidden">
                 <Image
                     src={
@@ -50,11 +49,11 @@ export default async function page({ params }) {
                     blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAEElEQVR42mP8z/C/HwMggAABBAAGpTngUQAAAABJRU5ErkJggg=="
                 />
             </div>
-            <h2 className="text-5xl my-3 capitalize">{post.title}</h2>
+            <h1 className="text-5xl my-4 capitalize">{post.title}</h1>
             <p dangerouslySetInnerHTML={{ __html: post.body }}></p>
 
-            <Suspense fallback="<h1>Loading comments</h1>" >
-              <Comments commentsPromise={commentsPromise}/>
+            <Suspense fallback={<CommentsLoader />}>
+                <Comments commentsPromise={commentsPromise} />
             </Suspense>
         </>
     );
