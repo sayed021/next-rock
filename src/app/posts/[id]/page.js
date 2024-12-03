@@ -1,6 +1,8 @@
+import Comments from "@/app/components/comments";
 import { getPost, getPostComments } from "@/services/PostServices";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 const imageUrls = [
     "https://picsum.photos/5000/2000?random=1",
@@ -24,8 +26,12 @@ export async function generateMetadata({ params }) {
 
 export default async function page({ params }) {
     const { id } = await params;
-    const post = await getPost(id);
-    const comments = await getPostComments(id);
+    const postPromise = await getPost(id);
+    const commentsPromise = await getPostComments(id);
+
+    const post = await postPromise; 
+
+    // const [post, comments] = await Promise.all([postPromise, commentsPromise])
 
     return (
         <>
@@ -51,25 +57,9 @@ export default async function page({ params }) {
             <h2 className="text-5xl my-3 capitalize">{post.title}</h2>
             <p dangerouslySetInnerHTML={{ __html: post.body }}></p>
 
-            <div className="comments mt-9">
-                <p>
-                    <strong>Comments</strong>
-                </p>
-                <hr />
-
-                <ul className="mt-6">
-                  {comments.map(comment=>{
-                    return <li className="pb-4 flex" key={comment.id+'comment'}>
-                      <span className="h-[50px] w-[50px] min-w-[50px] rounded-full border-2 border-gray-200 mr-4 bg-gray-50"></span>
-                      <div className="mb-2">
-                        <h4 className="capitalize text-gray-600"><Link href={"#"}>{comment.name}</Link></h4>
-                        <small className="lowercase text-gray-300"><a href={`mailto:${comment.email}`}>{comment.email}</a></small>
-                        <p className="mb-3 mt-3">{comment.body}</p>
-                      </div>
-                      </li>
-                  })}
-                </ul>
-            </div>
+            <Suspense fallback="<h1>Loading comments</h1>" >
+              <Comments commentsPromise={commentsPromise}/>
+            </Suspense>
         </>
     );
 }
