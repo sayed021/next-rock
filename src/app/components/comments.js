@@ -1,4 +1,5 @@
 
+import { getPostComments } from "@/services/PostServices";
 import Link from "next/link";
 
 export default async function Comments({commentsPromise}) {
@@ -34,4 +35,11 @@ export default async function Comments({commentsPromise}) {
         </div>
     )
     
+}
+
+export async function generateStaticParams() {
+    const posts = await getPosts();
+    let x = posts.map(post => {
+      return { id: getPostComments(post.id).toString() }
+    })
 }

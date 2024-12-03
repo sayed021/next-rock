@@ -1,13 +1,13 @@
 import Comments from "@/app/components/comments";
-import { getPost, getPostComments } from "@/services/PostServices";
+import { getPost, getPostComments, getPosts } from "@/services/PostServices";
 import Image from "next/image";
-import Link from "next/link";
 import { Suspense } from "react";
+import ButtonLink from "@/app/components/Button";
 
 const imageUrls = [
-    "https://picsum.photos/5000/2000?random=1",
-    "https://picsum.photos/5000/2000?random=2",
-    "https://picsum.photos/5000/2000?random=3",
+    "https://picsum.photos/1000/1000?random=1",
+    "https://picsum.photos/1000/1000?random=2",
+    "https://picsum.photos/3000/4000?random=3",
     "https://picsum.photos/1000/100?random=4",
     "https://picsum.photos/500/200?random=5",
     "https://picsum.photos/300/300?random=6",
@@ -35,12 +35,8 @@ export default async function page({ params }) {
 
     return (
         <>
-            <Link
-                className="border-0 bg-cyan-600 text-black px-4 py-2 mb-3 mt-9"
-                href="/posts"
-            >
-                back
-            </Link>
+            <ButtonLink text="< Back to posts" />
+ 
 
             <div className="w-100 relative h-[500px] border-2 border-gray-400 bg-gray-100 mt-9 rounded-md overflow-hidden">
                 <Image
@@ -62,4 +58,12 @@ export default async function page({ params }) {
             </Suspense>
         </>
     );
+}
+
+
+export async function generateStaticParams() {
+  const posts = await getPosts();
+  return posts.map(post => {
+    return { id: post.id.toString()}
+  })
 }
