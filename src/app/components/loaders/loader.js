@@ -49,9 +49,9 @@ export function BlogsLoader() {
 export function SingleBlogsLoader() {
     return (
         <>
-            <div className="h-[30px] bg-gray-200 mb-30 w-[150px]"  />
-            <div className="w-100 relative h-[500px] border-2 border-gray-400 bg-gray-100 mt-9 rounded-md overflow-hidden" />
-            <div className="text-5xl my-3 capitalize" />
+            <div className="h-[30px] bg-gray-200 mb-60 w-[150px]"  />
+            <div className="w-100 relative h-[500px] border-1 border-gray-100 bg-gray-100 mt-9 rounded-md overflow-hidden" style={{boxShadow: "0 13px 27px -5px #32325d40,0 8px 16px -8px #0000004d,0 -6px 16px -6px #00000008"}} />
+            <div className="text-5xl mb-6 capitalize" />
             <div className="h-[30px] bg-gray-200 mb-4" />
             <div className="h-[30px] bg-gray-200 mb-4 w-[50%]" />
             <div className="h-[30px] bg-gray-200 mb-4 w-[90%]" />
@@ -67,7 +67,7 @@ export function CommentsLoader() {
     return (
         <>
             <div className="comments mt-9">
-                <p className="bg-gray-200 h-[60px] mb-3" />
+                <p className="bg-gray-200 h-[30px] mb-3" />
                 <hr />
 
                 <ul className="mt-6">

@@ -6,8 +6,8 @@ export default async function Comments({commentsPromise}) {
     const comments = await commentsPromise;
 
     return (
-        <div className="comments mt-9">
-            <p>
+        <div className="comments mt-16">
+            <p className="mb-3">
                 <strong>Comments</strong>
             </p>
             <hr />
@@ -38,8 +38,9 @@ export default async function Comments({commentsPromise}) {
 }
 
 export async function generateStaticParams() {
+    console.log("comment cache")
     const posts = await getPosts();
     let x = posts.map(post => {
       return { id: getPostComments(post.id).toString() }
-    })
+    });
 }
